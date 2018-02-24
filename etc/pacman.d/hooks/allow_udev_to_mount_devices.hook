@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = systemd
+
+[Action]
+Description = Allow udev to mount devices through udev rules.
+Depends = sed
+Exec = /bin/sed -i "s/^\(MountFlags=\)slave$/\1shared/" /usr/lib/systemd/system/systemd-udevd.service
+When = PostTransaction

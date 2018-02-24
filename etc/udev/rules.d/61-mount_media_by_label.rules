@@ -1,0 +1,24 @@
+#
+# To propagate udev's mountpoint to the user space, MountFlags must have a value "shared" in the /usr/lib/systemd/system/systemd-udevd.service.
+#
+
+# Ignore devices that aren't storage block-devices and block-devices that are already listed in /etc/fstab.
+KERNEL!="sd[a-z][1-9]*", GOTO="mount_media_by_label_end"
+PROGRAM="/bin/grep -e '^UUID=%E{ID_FS_UUID}' /etc/fstab", RESULT!="", GOTO="mount_media_by_label_end"
+
+# Decide the name for device's mountpoint directory, based on device's label.
+ENV{ID_FS_LABEL}!="", ENV{mountpoint}="%E{ID_FS_LABEL}"
+ENV{ID_FS_LABEL}=="", ENV{mountpoint}="usb-%k"
+
+# If device is being plugged in, set options for mount command.
+ACTION=="add", ENV{mount_options}="relatime"
+ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="%E{mount_options},utf8,gid=100,umask=002"
+
+# If device is being plugged in, create mountpoint directory in /media and mount device node to it.
+ACTION=="add", RUN+="/bin/mkdir -p /media/%E{mountpoint}", RUN+="/bin/mount -o %E{mount_options} /dev/%k /media/%E{mountpoint}"
+
+# If device is being plugged out, unmount it and delete its mountpoint directory.
+ACTION=="remove", ENV{mountpoint}!="", RUN+="/bin/umount -l /media/%E{mountpoint}", RUN+="/bin/rmdir /media/%E{mountpoint}"
+
+# Label for early exit.
+LABEL="mount_media_by_label_end"

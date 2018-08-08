@@ -1,0 +1,189 @@
+#!/bin/zsh
+
+# Unset all zsh options.
+unsetopt -m "*"
+
+####################################### CHANGING DIRECTORIES #######################################
+
+# Automatically push current directory on directory stack when executing 'cd' command.
+setopt AUTO_PUSHD
+
+# If argument for 'cd' is invalid, expand it and try to use it then.
+setopt CDABLE_VARS
+
+# Don't push multiple copies of the same directory on directory stack when using 'pushd'.
+setopt PUSHD_IGNORE_DUPS
+
+# Do not print directory stack after use of 'pushd' and 'popd'.
+setopt PUSHD_SILENT
+
+# Make 'pushd' without argument work like it was 'pushd ${HOME}'.
+setopt PUSHD_TO_HOME
+
+# Stack size for pushd/popd commands.
+DIRSTACKSIZE=10
+
+############################################ COMPLETION ############################################
+
+# After listing completions, return to the current prompt, do not print new one.
+setopt ALWAYS_LAST_PROMPT
+
+# Move cursor to the end after completion.
+setopt ALWAYS_TO_END
+
+# Start completion menu after the first <TAB> key.
+setopt MENU_COMPLETE
+
+# Automatically remove separator added by completion if it doesn't make sense ater next input.
+# Completion in brace expansion will add ',', but it will be removed if next input is '}'.
+setopt AUTO_PARAM_KEYS
+
+# If completion is done on directory, automatically add a trailing '/' instead of ' '.
+setopt AUTO_PARAM_SLASH
+
+# When complition or spelling correction is attempted, hash the command path first.
+setopt HASH_LIST_ALL
+
+# AUTO_LIST only if there is no unambiguous prefix to insert first.
+setopt LIST_AMBIGUOUS
+
+# Try to make completion list smaller by printing columns with different widths.
+setopt LIST_PACKED
+
+# Use addition ASCII characters to display type of the files in completion list.
+setopt LIST_TYPES
+
+###################################### EXPANSION AND GLOBBING ######################################
+
+# In a glob pattern, trailing "()" is a qualifier list if there is no '|', '(' or '~' in them.
+setopt BARE_GLOB_QUAL
+
+# Makes globing case sensitive.
+setopt CASE_GLOB
+
+# Make regex in zsh case sensitive.
+setopt CASE_MATCH
+
+# Perform globing.
+setopt GLOB
+
+# Include hidden files in globing pattern.
+setopt GLOB_DOTS
+
+# Require ';' or '\n' before '}' to simulate bash behavior.
+# IGNORED BECAUSE OF 'zsh-syntax-highlight' PLUGIN.
+#setopt IGNORE_CLOSE_BRACES
+
+# Work well with multibyte characters.
+setopt MULTIBYTE
+
+# Treat unset parameters as if they were empty.
+setopt UNSET
+
+############################################# HISTORY ##############################################
+
+# All zsh sessions will append their history to the history file when they are closed.
+# Maybe INC_APPEND_HISTORY will be better.
+setopt APPEND_HISTORY
+
+# Use '!' specially for history, for example "!!" = previous command.
+setopt BANG_HIST
+
+# Use 'fcntl' system call when locking a history file for better performance.
+setopt HIST_FCNTL_LOCK
+
+# If last command added to history was used before, remove the previous occurrence.
+setopt HIST_IGNORE_ALL_DUPS
+
+# Do not write command in history if it is the same as last one.
+setopt HIST_IGNORE_DUPS
+
+# Remove not needed blanks from each command line added to the history.
+setopt HIST_REDUCE_BLANKS
+
+# When re-writing history, first create a new file, then rename it over the old one.
+setopt HIST_SAVE_BY_COPY
+
+# File which will containt history of commands from interactive shell.
+HISTFILE="${TMPPREFIX}history"
+
+# The maximum number of events stored in the internal history list.
+HISTSIZE=1000
+
+# Number of history events to save in history file.
+SAVEHIST=1000
+
+########################################## INITIALISATION ##########################################
+
+# Source everything needed in this order:
+# 1)  /etc/zsh/zshenv       ->  Always.
+# 2)  ${ZDOTDIR}/.zshenv    ->  Always.
+# 3)  /etc/zsh/zprofile     ->  Login shell only.
+# 4)  /etc/profile          ->  Login shell only.
+# 4)  ${ZDOTDIR}/.zprofile  ->  Login shell only.
+# 5)  /etc/zsh/zshrc        ->  Interactive shell only.
+# 6)  ${ZDOTDIR}/.zshrc     ->  Interactive shell only.
+# 7)  /etc/zsh/zlogin       ->  Login shell only.
+# 8)  ${ZDOTDIR}/.zlogin    ->  Login shell only.
+# 9)  ${ZDOTDIR}/.zlogout   ->  Login shell only.
+# 10) /etc/zsh/zlogout      ->  Login shell only.
+setopt RCS
+
+########################################### INPUT/OUTPUT ###########################################
+
+# Allow use of aliases.
+setopt ALIASES
+
+# Allows redirecting with just '>' to truncate existing files instead of ">!".
+setopt CLOBBER
+
+# Allow use of comments in interactive shell.
+setopt INTERACTIVE_COMMENTS
+
+# Hash commands to avoid path searching next time.
+setopt HASH_CMDS
+setopt HASH_DIRS
+
+########################################### JOB CONTROL ############################################
+
+# Run backgrounded jobs with lower priority.
+setopt BG_NICE
+
+# Warn about backgrounded and suspended jobs when exiting the shell.
+setopt CHECK_JOBS
+
+# When exiting the shell, send HUP signal to running jobs.
+setopt HUP
+
+# Allow job control.
+setopt MONITOR
+
+############################################ PROMPTING #############################################
+
+# Print a carriage return before printing the prompt.
+setopt PROMPT_CR
+
+# Use the special meaning of '%' in prompt variables.
+setopt PROMPT_PERCENT
+
+###################################### SCRIPTS AND FUNCTIONS #######################################
+
+# Set ${0} to the name of the function/script.
+setopt FUNCTION_ARGZERO
+
+######################################### SHELL EMULATION ##########################################
+
+# Simulate BASH arrays:
+#   Index is zero-based.
+#   Printing array without index will print the first element.
+#   Braces must be used when accessing elements.
+# IGNORED BECAUSE OF 'zsh-syntax-highlight' PLUGIN.
+#setopt KSH_ARRAYS
+
+###################################### ZSH LINE EDITOR (ZLE) #######################################
+
+# Use zsh line editor.
+setopt ZLE
+
+# Wait 0.1s for multiple character keybindings (like "jk").
+KEYTIMEOUT=10

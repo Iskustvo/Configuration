@@ -1,0 +1,56 @@
+#!/bin/zsh
+
+############################################# GLOBALS ##############################################
+
+# Export VIM_MODE variable so that prompt can be updated appropriately.
+export VIM_MODE
+
+############################################ FUNCTIONS #############################################
+
+# Function that will change vim mode to 'insert'.
+function go_to_insert_mode()
+{
+    zle vi-insert
+}
+
+# Function that will update prompt and cursor shape based on the current vim mode.
+function update_prompt()
+{
+    # There is no need to redraw the prompt when doing autocomletion.
+    { [[ "${KEYMAP}" = "empty" ]] || [[ "${1}" == 'empty' ]]; } && return 0
+
+    # Update VIM_MODE and set appropriate cursor shape.
+    case "${KEYMAP}" in
+        insert|main|viins)
+            VIM_MODE='insert'
+            printf "${INSERT_CURSOR}"
+            ;;
+        normal|vicmd)
+            VIM_MODE='normal'
+            printf "${NORMAL_CURSOR}"
+            ;;
+    esac
+
+    # Redraw prompt based on VIM_MODE.
+    PS1="$(${PROMPT_GENERATOR})"
+    zle reset-prompt
+}
+
+############################################## HOOKS ###############################################
+
+# After pressing <Enter> in interactive shell, first go to 'insert' mode and then execute the code.
+# With 'zle-keymap-select' hook, this will update prompt before the inputed code is executed.
+zle -N zle-line-finish go_to_insert_mode
+
+# Update prompt every time when vim mode has changed.
+zle -N zle-keymap-select update_prompt
+
+# After <Enter> is pressed and inputed code is executed, update prompt before reading next command.
+zle -N zle-line-init update_prompt
+
+# Trap SIGINT signal to be able to reset prompt color before new prompt is created.
+# Same trick is used, as with 'zle-line-finish' + 'zle-keymap-select' hooks.
+function TRAPINT() {
+    zle && zle vi-insert
+    return $(( 128 + ${1} ))
+}

@@ -1,0 +1,180 @@
+#!/bin/zsh
+
+############################################ VIM MODES #############################################
+
+# Delete all existing modes.
+bindkey -D "${keymaps[@]}" &>/dev/null
+
+# Create custom modes.
+bindkey -N 'insert'
+bindkey -N 'normal'
+bindkey -N 'visual'
+bindkey -N 'operator_pending'
+bindkey -N 'completion_selection'
+bindkey -N 'empty'
+
+# Make zsh work well with custom modes.
+bindkey -A 'insert'               'main'
+bindkey -A 'insert'               'viins'
+bindkey -A 'normal'               'vicmd'
+bindkey -A 'operator_pending'     'viopp'
+bindkey -A 'completion_selection' 'menuselect'
+
+########################################### KEYBINDINGS ############################################
+
+#       INSERT
+
+bindkey -M 'insert' -R '\x20'-'\x7e'    'self-insert'
+bindkey -M 'insert'    '^[[200~'        'bracketed-paste'
+bindkey -M 'insert'    '^?'             'backward-delete-char'
+bindkey -M 'insert'    '^M'             'accept-line'
+bindkey -M 'insert'    '^V'             'vi-quoted-insert'
+bindkey -M 'insert'    '^L'             'clear-screen'
+bindkey -M 'insert'    '^I'             'expand_or_complete'
+bindkey -M 'insert'    '^K'             'history-beginning-search-backward'
+bindkey -M 'insert'    '^J'             'history-beginning-search-forward'
+bindkey -M 'insert'    '^A'             'insert-last-word'
+bindkey -M 'insert'    'jk'             'vi-cmd-mode'
+
+#       NORMAL
+
+# Simple cursor movements.
+bindkey -M 'normal' 'h' 'vi-backward-char'
+bindkey -M 'normal' 'l' 'vi-forward-char'
+bindkey -M 'normal' 'j' 'vi-down-line-or-history'
+bindkey -M 'normal' 'k' 'vi-up-line-or-history'
+bindkey -M 'normal' '0' 'vi-digit-or-beginning-of-line'
+bindkey -M 'normal' '^' 'vi-first-non-blank'
+bindkey -M 'normal' '$' 'vi-end-of-line'
+bindkey -M 'normal' '%' 'vi-match-bracket'
+
+# Word-like cursor movements.
+bindkey -M 'normal' 'b' 'vi-backward-word'
+bindkey -M 'normal' 'B' 'vi-backward-blank-word'
+bindkey -M 'normal' 'e' 'vi-forward-word-end'
+bindkey -M 'normal' 'E' 'vi-forward-blank-word-end'
+bindkey -M 'normal' 'w' 'vi-forward-word'
+bindkey -M 'normal' 'W' 'vi-forward-blank-word'
+
+# In-line searches.
+bindkey -M 'normal' 'f' 'vi-find-next-char'
+bindkey -M 'normal' 'F' 'vi-find-prev-char'
+bindkey -M 'normal' 't' 'vi-find-next-char-skip'
+bindkey -M 'normal' 'T' 'vi-find-prev-char-skip'
+bindkey -M 'normal' ';' 'vi-repeat-find'
+bindkey -M 'normal' ',' 'vi-rev-repeat-find'
+
+# Mode changing.
+bindkey -M 'normal' 'v' 'visual-mode'
+bindkey -M 'normal' 'V' 'visual-line-mode'
+bindkey -M 'normal' 'i' 'vi-insert'
+bindkey -M 'normal' 'I' 'vi-insert-bol'
+bindkey -M 'normal' 'a' 'vi-add-next'
+bindkey -M 'normal' 'A' 'vi-add-eol'
+bindkey -M 'normal' 's' 'vi-substitute'
+bindkey -M 'normal' 'c' 'vi-change'
+bindkey -M 'normal' 'C' 'vi-change-eol'
+bindkey -M 'normal' 'o' 'vi-open-line-below'
+bindkey -M 'normal' 'O' 'vi-open-line-above'
+
+# Copy & Paste.
+bindkey -M 'normal' '^[[200~'   'bracketed-paste'
+bindkey -M 'normal' 'y'         'vi-yank'
+bindkey -M 'normal' 'Y'         'vi-yank-eol'
+bindkey -M 'normal' 'p'         'vi-put-after'
+bindkey -M 'normal' 'P'         'vi-put-before'
+
+# History.
+bindkey -M 'normal' '^K'    'history-beginning-search-backward'
+bindkey -M 'normal' '^J'    'history-beginning-search-forward'
+bindkey -M 'normal' '/'     'vi-history-search-backward'
+bindkey -M 'normal' 'n'     'vi-repeat-search'
+bindkey -M 'normal' 'N'     'vi-rev-repeat-search'
+
+# Text modification manipulation.
+bindkey -M 'normal' -R '1'-'9'  'digit-argument'
+bindkey -M 'normal'     'u'     'undo'
+bindkey -M 'normal'     '^R'    'redo'
+bindkey -M 'normal'     '.'     'vi-repeat-change'
+
+# Misc.
+bindkey -M 'normal' 'r'     'vi-replace-chars'
+bindkey -M 'normal' 'x'     'vi-delete-char'
+bindkey -M 'normal' 'X'     'vi-backward-delete-char'
+bindkey -M 'normal' 'd'     'vi-delete'
+bindkey -M 'normal' 'D'     'vi-kill-eol'
+bindkey -M 'normal' '#'     'pound-insert'
+bindkey -M 'normal' '^M'    'accept-line'
+bindkey -M 'normal' '^L'    'clear-screen'
+
+#       VISUAL
+
+bindkey -M 'visual' 'o'     'exchange-point-and-mark'
+bindkey -M 'visual' 'p'     'put-replace-selection'
+bindkey -M 'visual' 'u'     'vi-down-case'
+bindkey -M 'visual' 'U'     'vi-up-case'
+bindkey -M 'visual' 'j'     'down-line'
+bindkey -M 'visual' 'k'     'up-line'
+bindkey -M 'visual' 'aw'    'select-a-word'
+bindkey -M 'visual' 'aW'    'select-a-blank-word'
+bindkey -M 'visual' 'aa'    'select-a-shell-word'
+bindkey -M 'visual' 'ia'    'select-a-blank-word'
+bindkey -M 'visual' 'iw'    'select-in-word'
+bindkey -M 'visual' 'iW'    'select-in-blank-word'
+
+#       OPERATOR PENDING
+
+bindkey -M 'operator_pending' 'j'   'down-line'
+bindkey -M 'operator_pending' 'k'   'up-line'
+bindkey -M 'operator_pending' 'aw'  'select-a-word'
+bindkey -M 'operator_pending' 'aW'  'select-a-blank-word'
+bindkey -M 'operator_pending' 'aa'  'select-a-shell-word'
+bindkey -M 'operator_pending' 'ia'  'select-a-blank-word'
+bindkey -M 'operator_pending' 'iw'  'select-in-word'
+bindkey -M 'operator_pending' 'iW'  'select-in-blank-word'
+
+
+#       COMPLETION SELECTION
+
+# Actions on selections. [Left hand intended]
+bindkey -M 'completion_selection' 'a'   'accept-line'                   # Accept.
+bindkey -M 'completion_selection' 'A'   'accept-and-hold'               # Accept and select more.
+bindkey -M 'completion_selection' 's'   'accept-and-infer-next-history' # Select subdirectories.
+bindkey -M 'completion_selection' 'd'   'send-break'                    # Decline.
+bindkey -M 'completion_selection' 'f'   'undo'                          # Fallback(Undo).
+
+# Selection movememt. [Right hand intended]
+bindkey -M 'completion_selection' 'h'   'vi-backward-char'          # Move left.
+bindkey -M 'completion_selection' 'l'   'vi-forward-char'           # Move right.
+bindkey -M 'completion_selection' 'j'   'vi-down-line-or-history'   # Move down.
+bindkey -M 'completion_selection' 'k'   'vi-up-line-or-history'     # Move up.
+bindkey -M 'completion_selection' 'H'   'vi-beginning-of-line'      # Move most left.
+bindkey -M 'completion_selection' 'L'   'vi-end-of-line'            # Move most right.
+bindkey -M 'completion_selection' 'J'   'vi-forward-blank-word'     # Move group down.
+bindkey -M 'completion_selection' 'K'   'vi-backward-blank-word'    # Move group up.
+
+# Misc.
+bindkey -M 'completion_selection' '^L'  'clear-screen'  # Clear screen.
+
+########################################## CUSTOM ACTIONS ##########################################
+
+# Workaround for very specific bug!
+# When in "completion_selection", every unbinded key is defaulting to keybinding from previous mode.
+# Since "insert" mode has the "jk" keybinding and "completion_selection" uses "j" and "k" to move
+# around completions, when moving from "insert" to "completion_selection" mode and pressing the "j",
+# zsh doesn't know if user wishes to use "j" from "completion_selection" or user will input "k" and
+# use "jk" from "insert".
+# Because of that, zsh will wait for some time (defined by KEYTIMEOUT variable in settings file) or
+# until next key is pressed to decide what to do.
+# This creates 2 problems:
+#   1) There is a delay after every "j" key pressed.
+#   2) If "jk" is pressed fast in "completion_selection", zsh will go to normal mode.
+# Solution is to go from "insert" to "empty" mode which has no keybindings and then go from "empty"
+# to "completion_selection" mode so that there are no default keybindings for "completion_selection"
+function expand_or_complete
+{
+    zle -K empty
+    zle expand-or-complete
+    zle vi-insert
+}
+zle -N expand_or_complete

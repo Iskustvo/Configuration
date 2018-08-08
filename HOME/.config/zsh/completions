@@ -1,0 +1,92 @@
+#!/bin/zsh
+
+########################################## FOR DEBUGGING ###########################################
+
+# Write the information that completion system has at the momemnt.
+bindkey -M 'insert' '^Xh' '_complete_help'
+
+# When no completion can be offered, write tags that didn't match anything.
+zstyle ':completion:*:*:*:*:warnings' format 'No matches found for:
+%D'
+
+######################################### GENERAL SETTINGS #########################################
+
+# Initialize the completion system.
+autoload -Uz compinit && compinit
+
+# Use only completions.
+zstyle ':completion:*:*:*:*:*' completer '_complete'
+
+# Always use menu selection.
+zstyle ':completion:*:*:*:*:*' menu 'select'
+
+# Separate all completions into groups by the name of the tag that matched them.
+zstyle ':completion:*:*:*:*:*' group-name ''
+
+# If case sensitive completion can't be found, try to find case insensitive completion.
+zstyle ':completion:*:*:*:*:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}'
+
+# Show descriptions.
+zstyle ':completion:*:*:*:*:*' verbose 'true'
+
+# Set the format for each group/tag description.
+zstyle ':completion:*:*:*:*:descriptions' format \
+    '%{[0;38;2;0;0;0;48;2;200;150;0m%} %d %{[0;38;2;200;150;0;48;2;0;0;0m%}%{[0m%}'
+
+# When completing the paths that contain '../' don't show:
+# 1) Current working directory - "cd ../<TAB>" will not offer current working directory.
+# 2) Directoris that are already specified in the path - "cd foo/../<TAB>" will not offer "foo".
+zstyle ':completion:*:*:*:*:*' ignore-parents 'parent' 'pwd' '..'
+
+# In path completions, treat "//" as "/".
+zstyle ':completion:*:*:*:*:*' squeeze-slashes 'true'
+
+######################################### CONTEXT SETTINGS #########################################
+
+
+#   COMMAND CONTEXT
+
+# Separate file completions between "Executables" and "Directories" tags.
+zstyle ':completion:*:*:-command-:*:*' file-patterns '
+    *(#q-*):executables:Executables:Executables
+    *(-/):directories:Directories:Directories'
+
+# Set the order of tag matching as well as their descriptions.
+zstyle -e ':completion:*:*:-command-:*:*' tag-order '
+    reply=(
+           "executables:Executables:Executables
+            directories:Directories:Directories
+            builtins:Builtins:Builtins
+            commands:Commands:Commands
+            aliases:Aliases:Aliases
+            functions:Functions:Functions
+            parameters:Variables:Variables
+            reserved-words:Keywords:Keywords"
+           "-"
+          )'
+
+# Set the order in which completion groups will be shown.
+zstyle ':completion:*:*:-command-:*:*' group-order \
+    'Executables' 'Directories' 'Builtins' 'Commands' 'Aliases' 'Functions' 'Variables' 'Keywords'
+
+######################################### COMMAND SETTINGS #########################################
+
+
+#   SUDO
+
+# Separate file completions between "Executables" and "Directories" tags.
+zstyle ':completion:*:*:sudo:argument-1:*' file-patterns '
+    *(#q-*):executables:Executables:Executables
+    *(-/):directories:Directories:Directories'
+
+# Set the order of tag matching as well as their descriptions.
+zstyle -e ':completion:*:*:sudo:argument-1:*' tag-order '
+    reply=(
+           "executables:Executables:Executables
+            directories:Directories:Directories
+            commands:Commands:Commands"
+           "-"
+          )'
+
+# Set the order in which completion groups will be shown.
+zstyle ':completion:*:*:sudo:argument-1:*' group-order 'Executables' 'Directories' 'Commands'

@@ -27,7 +27,7 @@ GIT_UNCHANGED='2'
 ############################################### MAIN ###############################################
 
 # Choose prompt color based on current Vim mode.
-case "${KEYMAP}" in
+case "${VIM_MODE}" in
     normal)
             PROMPT_BG="%{[0;4${VIM_NORMAL_PROMPT}m%}"
             PROMPT_FG="%{[3${VIM_NORMAL_PROMPT}m%}"
@@ -77,7 +77,7 @@ else
         [[ "${BRANCH}" =~ ^[0-9a-f]{40}$ ]] && BRANCH="${BRANCH:0:7}" && SYMBOL='♦'
     fi
 
-    # Decide background color based on current status.
+    # Decide the background color based on current status.
     if [[ -n "$(git ls-files --unmerged)" ]]; then
         # Stuck in the middle of rebase|merge|cherry-pick.
         GIT_BG="%{[0;4${GIT_CONFLICT}m%}"

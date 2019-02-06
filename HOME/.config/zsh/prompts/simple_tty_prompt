@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-############################################## COLORS ##############################################
+######################################################## COLORS ########################################################
 
 # Default color/style.
 NO_COLOR="%{[0m%}"
@@ -24,7 +24,7 @@ GIT_CONFLICT='1'
 GIT_CHANGED='3'
 GIT_UNCHANGED='2'
 
-############################################### MAIN ###############################################
+######################################################### MAIN #########################################################
 
 # Choose prompt color based on current Vim mode.
 case "${VIM_MODE}" in
@@ -82,7 +82,7 @@ else
         # Stuck in the middle of rebase|merge|cherry-pick.
         GIT_BG="%{[0;4${GIT_CONFLICT}m%}"
         GIT_FG="%{[0;3${GIT_CONFLICT}m%}"
-    elif ! git diff-index --quiet HEAD -- || [[ -n "$(git ls-files -o)" ]]; then
+    elif ! git diff-index --quiet HEAD -- || [[ -n "$(git ls-files -o --exclude-standard)" ]]; then
         # There are uncommited changes or untracted files.
         GIT_BG="%{[0;4${GIT_CHANGED}m%}"
         GIT_FG="%{[0;3${GIT_CHANGED}m%}"

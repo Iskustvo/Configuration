@@ -155,6 +155,7 @@ bindkey -M 'completion_selection' 'K'   'vi-backward-blank-word'    # Move group
 
 # Misc.
 bindkey -M 'completion_selection' '^L'  'clear-screen'  # Clear screen.
+bindkey -M 'completion_selection' '^M'  '.accept-line'  # Clear screen.
 
 ########################################## CUSTOM ACTIONS ##########################################
 

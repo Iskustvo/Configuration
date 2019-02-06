@@ -28,6 +28,9 @@ source "${ZDOTDIR}/hooks"
 # Configure completions.
 source "${ZDOTDIR}/completions"
 
+# Configure aliases.
+source "${ZDOTDIR}/aliases"
+
 # Configure syntax highlightings.
 source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)

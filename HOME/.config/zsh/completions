@@ -12,7 +12,8 @@ zstyle ':completion:*:*:*:*:warnings' format 'No matches found for:
 ######################################### GENERAL SETTINGS #########################################
 
 # Initialize the completion system.
-autoload -Uz compinit && compinit -Cd "${TMPPREFIX}/completion_cache"
+mkdir -p "${TMPPREFIX}"
+autoload -Uz compinit && compinit -C -d "${TMPPREFIX}/completion_cache"
 
 # Use only completions.
 zstyle ':completion:*:*:*:*:*' completer '_complete'

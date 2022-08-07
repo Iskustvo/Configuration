@@ -105,7 +105,7 @@ setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_BY_COPY
 
 # File which will containt history of commands from interactive shell.
-HISTFILE="${TMPPREFIX}history"
+HISTFILE="${HOME}/.cache/zsh/history"
 
 # The maximum number of events stored in the internal history list.
 HISTSIZE=1000

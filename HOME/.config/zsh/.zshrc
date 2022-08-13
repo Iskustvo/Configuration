@@ -1,10 +1,5 @@
 #!/bin/zsh
 
-# TODO:
-#       Improve completions.
-#       Improve highlightings.
-#       Fix cursor bug when in visual mode.
-
 # Decide which prompt and cursor shapes will be used, based on terminal emulator.
 if [[ "${TERM}" == 'linux' ]]; then
     PROMPT_GENERATOR="${ZDOTDIR}/prompts/simple_tty_prompt"
@@ -31,6 +26,5 @@ source "${ZDOTDIR}/completions"
 # Configure aliases.
 source "${ZDOTDIR}/aliases"
 
-# Configure syntax highlightings.
-source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+# Configure highlighting - Must be last to work correctly.
+source "${ZDOTDIR}/highlights"

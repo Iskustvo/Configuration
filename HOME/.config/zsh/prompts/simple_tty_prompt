@@ -3,21 +3,21 @@
 ######################################################## COLORS ########################################################
 
 # Default color/style.
-NO_COLOR="%{[0m%}"
+NO_COLOR=$'%{\e[0m%}'
 
 # Color for regular text inside of prompt.
-TEXT_COLOR='%{[30m%}'
+TEXT_COLOR=$'%{\e[30m%}'
 
 # Colors for icons.
-FAILED_COLOR='%{[1;31m%}'
+FAILED_COLOR=$'%{\e[1;31m%}'
 
 # Prompt colors based on Vim modes.
 VIM_NORMAL_PROMPT='2'
 VIM_INSERT_PROMPT='3'
 
 # Color of separator.
-SEPARATOR_BG="%{[0;40m%}"
-SEPARATOR_FG="%{[30m%}"
+SEPARATOR_BG=$'%{\e[0;40m%}'
+SEPARATOR_FG=$'%{\e[30m%}'
 
 # Git prompt colors based on git status.
 GIT_CONFLICT='1'
@@ -29,12 +29,13 @@ GIT_UNCHANGED='2'
 # Choose prompt color based on current Vim mode.
 case "${VIM_MODE}" in
     normal)
-            PROMPT_BG="%{[0;4${VIM_NORMAL_PROMPT}m%}"
-            PROMPT_FG="%{[3${VIM_NORMAL_PROMPT}m%}"
+            PROMPT_BG=$'%{\e[0;4'"${VIM_NORMAL_PROMPT}"'m%}'
+            PROMPT_FG=$'%{\e[3'"${VIM_NORMAL_PROMPT}"'m%}'
             ;;
     *)
-            PROMPT_BG="%{[0;4${VIM_INSERT_PROMPT}m%}"
-            PROMPT_FG="%{[3${VIM_INSERT_PROMPT}m%}"
+            PROMPT_BG=$'%{\e[0;4'"${VIM_INSERT_PROMPT}"'m%}'
+            PROMPT_FG=$'%{\e[3'"${VIM_INSERT_PROMPT}"'m%}'
+            ;;
 esac
 
 # Build components for main prompt.
@@ -80,16 +81,16 @@ else
     # Decide the background color based on current status.
     if [[ -n "$(git ls-files --unmerged)" ]]; then
         # Stuck in the middle of rebase|merge|cherry-pick.
-        GIT_BG="%{[0;4${GIT_CONFLICT}m%}"
-        GIT_FG="%{[0;3${GIT_CONFLICT}m%}"
+        GIT_BG=$'%{\e[0;4'"${GIT_CONFLICT}"'m%}'
+        GIT_FG=$'%{\e[0;3'"${GIT_CONFLICT}"'m%}'
     elif ! git diff-index --quiet HEAD -- || [[ -n "$(git ls-files -o --exclude-standard)" ]]; then
         # There are uncommited changes or untracted files.
-        GIT_BG="%{[0;4${GIT_CHANGED}m%}"
-        GIT_FG="%{[0;3${GIT_CHANGED}m%}"
+        GIT_BG=$'%{\e[0;4'"${GIT_CHANGED}"'m%}'
+        GIT_FG=$'%{\e[0;3'"${GIT_CHANGED}"'m%}'
     else
         # No changes.
-        GIT_BG="%{[0;4${GIT_UNCHANGED}m%}"
-        GIT_FG="%{[0;3${GIT_UNCHANGED}m%}"
+        GIT_BG=$'%{\e[0;4'"${GIT_UNCHANGED}"'m%}'
+        GIT_FG=$'%{\e[0;3'"${GIT_UNCHANGED}"'m%}'
     fi
 
     # Create git prompt from gathered informations.

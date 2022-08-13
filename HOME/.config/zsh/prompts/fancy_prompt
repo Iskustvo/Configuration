@@ -3,14 +3,14 @@
 ######################################################## COLORS ########################################################
 
 # Default color/style.
-NO_COLOR="%{[0m%}"
+NO_COLOR=$'%{\e[0m%}'
 
 # Color for regular text inside of prompt.
-TEXT_COLOR='%{[38;2;0;0;0m%}'
+TEXT_COLOR=$'%{\e[38;2;0;0;0m%}'
 
 # Colors for icons.
-FAILED_COLOR='%{[1;38;2;255;0;0m%}'
-JOBS_COLOR='%{[1;38;2;255;255;255m%}'
+FAILED_COLOR=$'%{\e[1;38;2;255;0;0m%}'
+JOBS_COLOR=$'%{\e[1;38;2;255;255;255m%}'
 
 # Prompt colors based on Vim modes.
 VIM_NORMAL_PROMPT_RGB='0;200;100'
@@ -28,16 +28,17 @@ GIT_UNCHANGED_RGB='0;255;0'
 # Choose prompt color based on current Vim mode.
 case "${VIM_MODE}" in
     normal)
-            PROMPT_BG="%{[0;48;2;${VIM_NORMAL_PROMPT_RGB}m%}"
-            PROMPT_FG="%{[38;2;${VIM_NORMAL_PROMPT_RGB}m%}"
-            SEPARATOR_BG="%{[0;48;2;${VIM_NORMAL_SEPARATOR_RGB}m%}"
-            SEPARATOR_FG="%{[38;2;${VIM_NORMAL_SEPARATOR_RGB}m%}"
+            PROMPT_BG=$'%{\e[0;48;2;'"${VIM_NORMAL_PROMPT_RGB}"'m%}'
+            PROMPT_FG=$'%{\e[38;2;'"${VIM_NORMAL_PROMPT_RGB}"'m%}'
+            SEPARATOR_BG=$'%{\e[0;48;2;'"${VIM_NORMAL_SEPARATOR_RGB}"'m%}'
+            SEPARATOR_FG=$'%{\e[38;2;'"${VIM_NORMAL_SEPARATOR_RGB}"'m%}'
             ;;
     *)
-            PROMPT_BG="%{[0;48;2;${VIM_INSERT_PROMPT_RGB}m%}"
-            PROMPT_FG="%{[38;2;${VIM_INSERT_PROMPT_RGB}m%}"
-            SEPARATOR_BG="%{[0;48;2;${VIM_INSERT_SEPARATOR_RGB}m%}"
-            SEPARATOR_FG="%{[38;2;${VIM_INSERT_SEPARATOR_RGB}m%}"
+            PROMPT_BG=$'%{\e[0;48;2;'"${VIM_INSERT_PROMPT_RGB}"'m%}'
+            PROMPT_FG=$'%{\e[38;2;'"${VIM_INSERT_PROMPT_RGB}"'m%}'
+            SEPARATOR_BG=$'%{\e[0;48;2;'"${VIM_INSERT_SEPARATOR_RGB}"'m%}'
+            SEPARATOR_FG=$'%{\e[38;2;'"${VIM_INSERT_SEPARATOR_RGB}"'m%}'
+            ;;
 esac
 
 # Build components for main prompt.
@@ -83,16 +84,16 @@ else
     # Decide the background color based on current status.
     if [[ -n "$(git ls-files --unmerged)" ]]; then
         # Stuck in the middle of rebase|merge|cherry-pick.
-        GIT_BG="%{[0;48;2;${GIT_CONFLICT_RGB}m%}"
-        GIT_FG="%{[0;38;2;${GIT_CONFLICT_RGB}m%}"
+        GIT_BG=$'%{\e[0;48;2;'"${GIT_CONFLICT_RGB}"'m%}'
+        GIT_FG=$'%{\e[0;38;2;'"${GIT_CONFLICT_RGB}"'m%}'
     elif ! git diff-index --quiet "$(git write-tree)" -- || [[ -n "$(git ls-files -o --exclude-standard)" ]]; then
         # There are uncommited changes or untracted files.
-        GIT_BG="%{[0;48;2;${GIT_CHANGED_RGB}m%}"
-        GIT_FG="%{[0;38;2;${GIT_CHANGED_RGB}m%}"
+        GIT_BG=$'%{\e[0;48;2;'"${GIT_CHANGED_RGB}"'m%}'
+        GIT_FG=$'%{\e[0;38;2;'"${GIT_CHANGED_RGB}"'m%}'
     else
         # No changes.
-        GIT_BG="%{[0;48;2;${GIT_UNCHANGED_RGB}m%}"
-        GIT_FG="%{[0;38;2;${GIT_UNCHANGED_RGB}m%}"
+        GIT_BG=$'%{\e[0;48;2;'"${GIT_UNCHANGED_RGB}"'m%}'
+        GIT_FG=$'%{\e[0;38;2;'"${GIT_UNCHANGED_RGB}"'m%}'
     fi
 
     # Create git prompt from gathered informations.
